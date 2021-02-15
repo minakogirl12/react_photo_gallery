@@ -1,22 +1,23 @@
+//import React and React Router
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+
+//import CSS
 import './css/index.css';
-import PhotoForm from './components/PhotoForm.js';
+
+//App Components
+import PhotoForm from './components/PhotoForm';
 import Nav from './components/Nav';
 import PhotoContainer from './components/PhotoContainer';
 
-//TODO
-//Add event listeners to nav buttons on clicks that identifies which item was clicked
-//Take info of clicked Nav button and send to Flicker API for pics
-// Populate Photo Container with pics from API
+//Api Key
+import apiKey from './config';
 
 
 class App extends Component {
+  //Photos
   state = {
 
   }
-
-  
   /**
    * Function to fetch the Data from the Flickr API
    * @param {*} item The search term to populate the 
@@ -24,8 +25,6 @@ class App extends Component {
    */
   fetchPhotos(item){
     console.log("You've entered the function for fetching photos");
-    
-
     return null;
   }
 
@@ -36,7 +35,6 @@ class App extends Component {
         <PhotoForm />
         <Nav />
         <PhotoContainer />
-
       </div>
   );}
 }

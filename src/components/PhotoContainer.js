@@ -1,5 +1,5 @@
 import React from 'react';
-import NotFound from './NotFound';
+import NoResults from './NoResults';
 import Photo from "./Photo";
 
 //Enable Not Found if no content sent from parent
@@ -12,7 +12,7 @@ function PhotoContainer () {
         <ul>
           <Photo />
           { /*<!-- Not Found -->*/}
-          <NotFound />
+          <NoResults />
         </ul>
     </div>
     );

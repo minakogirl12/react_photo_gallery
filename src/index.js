@@ -3,11 +3,19 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import NotFound from './components/NotFound';
 
+
+//add routing here in this file
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <BrowserRouter>
+    <Switch>
+      <Route exact path="/" component={App} />
+      <Route component={NotFound} />
+    </Switch>
+  </BrowserRouter>
+  ,
   document.getElementById('root')
 );
 
