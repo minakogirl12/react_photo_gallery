@@ -12,22 +12,21 @@ import PhotoContainer from './components/PhotoContainer';
 
 
 class App extends Component {
-  
-  handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Submitted ' + this.searchItem.value);
-    //send data to function for fetching data
-    this.fetchPhotos(this.searchItem.value);
-    //send return data to the PhotoContainer component
+  state = {
+
   }
+
   
   /**
    * Function to fetch the Data from the Flickr API
    * @param {*} item The search term to populate the 
+   * @returns Object of fetched photos if the exists or null value if failed
    */
   fetchPhotos(item){
-    console.log("You've entered the function for fetching photos")
+    console.log("You've entered the function for fetching photos");
+    
 
+    return null;
   }
 
   render()
@@ -36,7 +35,7 @@ class App extends Component {
       <div className="container">
         <PhotoForm />
         <Nav />
-        <PhotoContainer handleSubmit={this.handleSubmit}/>
+        <PhotoContainer />
 
       </div>
   );}
