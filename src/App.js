@@ -14,10 +14,32 @@ import apiKey from './config';
 
 
 class App extends Component {
-  //Photos
-  state = {
-
+  
+  //Load initial photos
+  constructor() {
+    super();
+    this.state = {
+      photos: [], //array of photo objects
+      loading: true
+    }; //will be pics data we want to display
+  } 
+  
+  //all data fetching takes place in componentDidMount lifecycle method
+  //called immediately after component is loaded to the DOM
+  componentDidMount() {
+    fetch(` https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=cats&per_page=24&format=json&nojsoncallback=1`)
+    .then(response => response.json())
+    .then(data => {
+      //console.log(data.photos.photo); - verfied fetching data worked
+      //added fetched data to state
+      this.setState({
+        photos: data.photos.photo,
+        loading: false
+      })
+    })
+    .catch(error => console.log('error fetching data', error));
   }
+  
   /**
    * Function to fetch the Data from the Flickr API
    * @param {*} item The search term to populate the 
@@ -30,6 +52,7 @@ class App extends Component {
 
   render()
   {
+    console.log(this.state.photos); //verify state properly set
     return (
       <div className="container">
         <PhotoForm />
