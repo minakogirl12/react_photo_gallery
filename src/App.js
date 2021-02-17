@@ -27,17 +27,8 @@ class App extends Component {
   //all data fetching takes place in componentDidMount lifecycle method
   //called immediately after component is loaded to the DOM
   componentDidMount() {
-    fetch(` https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=cats&per_page=24&format=json&nojsoncallback=1`)
-    .then(response => response.json())
-    .then(data => {
-      //console.log(data.photos.photo); - verfied fetching data worked
-      //added fetched data to state
-      this.setState({
-        photos: data.photos.photo,
-        loading: false
-      })
-    })
-    .catch(error => console.log('error fetching data', error));
+    //load initial data to page
+    this.fetchPhotos();
   }
   
   /**
@@ -45,19 +36,29 @@ class App extends Component {
    * @param {*} item The search term to populate the 
    * @returns Object of fetched photos if the exists or null value if failed
    */
-  fetchPhotos(item){
-    console.log("You've entered the function for fetching photos");
-    return null;
+  fetchPhotos(item = "cats"){
+    
+    fetch(` https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${item}&per_page=24&format=json&nojsoncallback=1`)
+    .then(response => response.json())
+    .then(data => {
+      //console.log(data.photos.photo); - verfied fetching data worked
+      //added fetched data to state
+      this.setState({
+        photos: data.photos.photo,
+        loading: false
+      });
+    })
+    .catch(error => console.log('error fetching data', error));
   }
 
   render()
   {
-    console.log(this.state.photos); //verify state properly set
+    // console.log(this.state.photos); //verify state properly set
     return (
       <div className="container">
         <PhotoForm />
         <Nav />
-        <PhotoContainer />
+        <PhotoContainer data={this.state.photos}/>
       </div>
   );}
 }
