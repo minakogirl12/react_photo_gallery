@@ -8,14 +8,19 @@ import Photo from "./Photo";
 function PhotoContainer (props) {
   console.log(props.data);
   const results = props.data; //all data return from call to Flickr API
+  let photos;
+  if(results.length > 0){
+    photos = <Photo data={results[0]}/>
+  }
+  else{
+    photos = <NoResults />; //No results page
+  }
 
     return(
       <div class="photo-container">
         <h2>Results</h2>
         <ul>
-          <Photo />
-          { /*<!-- Not Found -->*/}
-          <NoResults />
+          {photos}
         </ul>
     </div>
     );

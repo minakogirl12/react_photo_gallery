@@ -1,9 +1,14 @@
 import React from 'react';
 
-function Photo () {
+function Photo (data) {
+
+    //https://live.staticflickr.com/{photo.server}/{photo.id}_{photo.secret}_{size-suffix}.jpg
+    let photo = data.data;
+    let url = `https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`
+    console.log(photo);
     return(
         <li>
-            <img src="https://farm5.staticflickr.com/4334/37032996241_4c16a9b530.jpg" alt="" />
+            <img src={url} alt="" />
         </li>
     )
 }
