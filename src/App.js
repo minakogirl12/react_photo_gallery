@@ -27,8 +27,8 @@ class App extends Component {
   //all data fetching takes place in componentDidMount lifecycle method
   //called immediately after component is loaded to the DOM
   componentDidMount() {
-    //load initial data to page
-    this.fetchPhotos();
+    //load initial data to page with cats search
+    this.fetchPhotos('cats');
   }
   
   /**
@@ -36,9 +36,11 @@ class App extends Component {
    * @param {*} item The search term to populate the 
    * @returns Object of fetched photos if the exists or null value if failed
    */
-  fetchPhotos(item = "cats"){
-    
-    fetch(` https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${item}&per_page=24&format=json&nojsoncallback=1`)
+  fetchPhotos = (item) => {
+    console.log(item);
+    //only fetch if there is a search item otherwise leave state
+    if(item){
+      fetch(` https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${item}&per_page=24&format=json&nojsoncallback=1`)
     .then(response => response.json())
     .then(data => {
       //console.log(data.photos.photo); - verfied fetching data worked
@@ -49,6 +51,13 @@ class App extends Component {
       });
     })
     .catch(error => console.log('error fetching data', error));
+    }
+    else{
+      this.setState({
+        loading: false
+      })
+   }
+    
   }
 
   render()
@@ -56,9 +65,13 @@ class App extends Component {
     // console.log(this.state.photos); //verify state properly set
     return (
       <div className="container">
-        <PhotoForm />
+        <PhotoForm onSearch={this.fetchPhotos}/>
         <Nav />
-        <PhotoContainer data={this.state.photos}/>
+        {
+          (this.state.loading)
+          ? <p>Loading...</p>
+          :  <PhotoContainer data={this.state.photos}/>
+        }
       </div>
   );}
 }
