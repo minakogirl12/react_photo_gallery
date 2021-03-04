@@ -9,6 +9,7 @@ export default class PhotoForm extends Component{
 
   onSearchChange = e => {
     this.setState({ searchText: e.target.value });
+    
   }
   
   handleSubmit = e => {
@@ -16,7 +17,6 @@ export default class PhotoForm extends Component{
     this.props.onSearch(this.item.value);
     //let searchItem = this.item.value;
     //let path = `${searchItem}`;
-
     //e.currentTarget.reset(); //resets the for to empty
   }
   

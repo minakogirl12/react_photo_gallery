@@ -1,6 +1,6 @@
 //import React and React Router
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 //import CSS
 import './css/index.css';
@@ -37,55 +37,11 @@ class App extends Component {
   //all data fetching takes place in componentDidMount lifecycle method
   //called immediately after component is loaded to the DOM
   componentDidMount() {
-    //load initial data to page with cats search
-    
-      fetch(` https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=cats&per_page=24&format=json&nojsoncallback=1`)
-      .then(response => response.json())
-      .then(data => {
-      //console.log(data.photos.photo); - verfied fetching data worked
-      //added fetched data to state
-      this.setState({
-        cats: data.photos.photo,
-        loading: false
-      });
-    })
-    .catch(error => console.log('error fetching data', error));
-
-    fetch(` https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=waterfalls&per_page=24&format=json&nojsoncallback=1`)
-      .then(response => response.json())
-      .then(data => {
-      //console.log(data.photos.photo); - verfied fetching data worked
-      //added fetched data to state
-      this.setState({
-        waterfalls: data.photos.photo,
-        loading: false
-      });
-    })
-    .catch(error => console.log('error fetching data', error));
-
-    fetch(` https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=computers&per_page=24&format=json&nojsoncallback=1`)
-      .then(response => response.json())
-      .then(data => {
-      //console.log(data.photos.photo); - verfied fetching data worked
-      //added fetched data to state
-      this.setState({
-        computers: data.photos.photo,
-        loading: false
-      });
-    })
-    .catch(error => console.log('error fetching data', error));
-
-    fetch(` https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=pizza&per_page=24&format=json&nojsoncallback=1`)
-      .then(response => response.json())
-      .then(data => {
-      //console.log(data.photos.photo); - verfied fetching data worked
-      //added fetched data to state
-      this.setState({
-        pizza: data.photos.photo,
-        loading: false
-      });
-    })
-    .catch(error => console.log('error fetching data', error));
+    this.fetchPhotos("cats", "cats");
+    this.fetchPhotos("waterfalls", "waterfalls");
+    this.fetchPhotos("computers", "computers");
+    this.fetchPhotos("pizza", "pizza");
+    this.fetchPhotos("Stranger Things");
   }
 
   
@@ -94,7 +50,7 @@ class App extends Component {
    * @param {*} item The search term to populate the 
    * @returns Object of fetched photos if the exists or null value if failed
    */
-  fetchPhotos = (item) => {
+  fetchPhotos = (item, stateValue) => {
     console.log(item);
     //only fetch if there is a search item otherwise leave state
     if(item){
@@ -103,10 +59,19 @@ class App extends Component {
     .then(data => {
       //console.log(data.photos.photo); - verfied fetching data worked
       //added fetched data to state
-      this.setState({
-        photos: data.photos.photo,
-        loading: false
-      });
+      if(stateValue){
+        this.setState({
+          [stateValue]: data.photos.photo,
+          loading: false
+        });
+      }
+      else{
+        this.setState({
+          photos: data.photos.photo,
+          loading: false
+        });
+      }
+      
     })
     .catch(error => console.log('error fetching data', error));
     }
@@ -127,13 +92,15 @@ class App extends Component {
     return (
       <BrowserRouter>
        <div className="container">
-        <PhotoForm onSearch={this.fetchPhotos}/>
+
+        <PhotoForm onSearch={this.fetchPhotos} path="/search"/>
         <Nav />
         
         <Switch>
-          <Route exact path="/" render={ () => (this.state.loading)
+          
+          <Route exact path="/"render={ () => (this.state.loading)
           ? <p>Loading...</p>
-          :  <PhotoContainer data={this.state.photos} /> }  />
+          :  <PhotoContainer data={this.state.photos} /> } />
 
           <Route exact path="/cats" render={ () => (this.state.loading)
           ? <p>Loading...</p>
