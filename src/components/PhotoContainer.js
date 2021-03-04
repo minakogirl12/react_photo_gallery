@@ -6,7 +6,8 @@ import Photo from "./Photo";
 //If content sent from parent use it to populate the container
 //get pics as a array or object then iterate through them
 function PhotoContainer (props) {
-  //console.log(props.data); 
+
+  //console.log(props.data);
   const results = props.data; //all data return from call to Flickr API
   let photos;
   if(results.length > 0){
