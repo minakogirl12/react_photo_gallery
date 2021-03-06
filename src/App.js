@@ -1,6 +1,6 @@
 //import React and React Router
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch} from 'react-router-dom';
 
 //import CSS
 import './css/index.css';
@@ -51,7 +51,7 @@ class App extends Component {
    * @returns Object of fetched photos if the exists or null value if failed
    */
   fetchPhotos = (item, stateValue) => {
-    console.log(item);
+    //console.log(item);
     //only fetch if there is a search item otherwise leave state
     if(item){
       fetch(` https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${item}&per_page=24&format=json&nojsoncallback=1`)
@@ -92,8 +92,7 @@ class App extends Component {
     return (
       <BrowserRouter>
        <div className="container">
-
-        <PhotoForm onSearch={this.fetchPhotos} path="/search"/>
+        <PhotoForm onSearch={this.fetchPhotos}/>
         <Nav />
         
         <Switch>
@@ -117,6 +116,10 @@ class App extends Component {
           <Route exact path="/pizza" render={ () => (this.state.loading)
           ? <p>Loading...</p>
           :  <PhotoContainer data={this.state.pizza} /> } />
+
+          <Route path="/search=:searchItem" render={ () => (this.state.loading)
+          ? <p>Loading...</p>
+          :  <PhotoContainer data={this.state.photos} /> } />
 
           <Route component={NotFound} />
       </Switch>
