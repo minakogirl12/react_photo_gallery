@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
-export default class PhotoForm extends Component{
+class PhotoForm extends Component{
   
   //keeps track of the search term
   state ={
@@ -9,18 +9,17 @@ export default class PhotoForm extends Component{
   }
 
   onSearchChange = e => {
-    this.setState({ searchText: e.target.value });
+    this.setState({ searchItem: e.target.value });
     
   }
   
   handleSubmit = e => {
     e.preventDefault(); //prevents page auto-refresh
+    this.props.onSearch(this.state.searchItem);
     //Change path to search term
-    let searchTerm = this.item.value;
-      let path = `search=${searchTerm}`;
+      let searchTerm = this.state.searchItem;
+      let path = `/${searchTerm}`;
       this.props.history.push(path);
-    this.props.onSearch(this.item.value);
-    
   }
   
   render(){
@@ -37,7 +36,10 @@ export default class PhotoForm extends Component{
             </svg>
           </button>
       </form>
+
    
     )
   }
 }
+
+export default withRouter(PhotoForm)

@@ -14,7 +14,9 @@ import NotFound from './components/NotFound';
 //Api Key
 import apiKey from './config';
 
-
+//history
+import { createBrowserHistory} from 'history';
+var history = createBrowserHistory();
 class App extends Component {
   
   //Load initial photos
@@ -26,6 +28,7 @@ class App extends Component {
       waterfalls: [],
       computers: [],
       pizza: [],
+      landing: [],
       loading: true
     }; //will be pics data we want to display
 
@@ -41,7 +44,7 @@ class App extends Component {
     this.fetchPhotos("waterfalls", "waterfalls");
     this.fetchPhotos("computers", "computers");
     this.fetchPhotos("pizza", "pizza");
-    this.fetchPhotos("Stranger Things");
+    this.fetchPhotos("Stranger Things", "landing");
   }
 
   
@@ -92,14 +95,14 @@ class App extends Component {
     return (
       <BrowserRouter>
        <div className="container">
-        <PhotoForm onSearch={this.fetchPhotos}/>
+        <PhotoForm history={history} onSearch={this.fetchPhotos}/>
         <Nav />
         
         <Switch>
           
           <Route exact path="/"render={ () => (this.state.loading)
           ? <p>Loading...</p>
-          :  <PhotoContainer data={this.state.photos} /> } />
+          :  <PhotoContainer data={this.state.landing} /> } />
 
           <Route exact path="/cats" render={ () => (this.state.loading)
           ? <p>Loading...</p>
@@ -117,9 +120,7 @@ class App extends Component {
           ? <p>Loading...</p>
           :  <PhotoContainer data={this.state.pizza} /> } />
 
-          <Route path="/search=:searchItem" render={ () => (this.state.loading)
-          ? <p>Loading...</p>
-          :  <PhotoContainer data={this.state.photos} /> } />
+          <Route path="/:searchItem" render={ () =>  <PhotoContainer data={this.state.photos} /> } />
 
           <Route component={NotFound} />
       </Switch>
